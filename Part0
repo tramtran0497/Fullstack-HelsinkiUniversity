@@ -1,1 +1,40 @@
-Exercise 4:
+**Exercise 4:**
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+server->browser: HTTP status 302 and asking browser to do a new HTTP GET location: /exampleapp/notes
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+server->browser: HTML-note
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server->browser: main.css
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server->browser: main.js
+
+browser starts executing js-code
+that requests JSON data from server 
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server->browser: [{content: "yo", date: "2021-10-13T21:11:59.174Z"},…]
+
+browser executes the event handler
+that renders notes to display
+end note
+
+**Exercise 5:**
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+server->browser: HTML - spa
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server->browser: main.css
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server->browser: main.js, content-type: application/javascript
+
+browser starts executing js-code
+that requests JSON data from server 
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server->browser: [{content: "manipulate", date: "2021-10-13T21:26:15.729Z"},…]
+
+**Exercise 6:**
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa contains the new note as JSON-data {content: "w2e12q3", date: "2021-10-14T11:06:44.547Z"}
+server->browser: HTTP status 201 and this time the server does not ask for a redirect, the browser stays on the same page, and it sends no further HTTP requests.
