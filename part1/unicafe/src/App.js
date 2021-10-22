@@ -2,6 +2,11 @@ import { useState } from 'react';
 import './App.css';
 
 const Statistics = ({good,neutral,bad,all,ave,pos})=>{
+  if(!good && !neutral && !bad){
+    return (
+      <p>No feedback given</p>
+    )
+  } 
   return(
     <div>
       <p>Good {good}</p>
