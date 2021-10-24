@@ -33,13 +33,13 @@ const Course = ({course})=>{
   )
 }
 
-// const Total = (props)=>{
-//   return(
-//     <div>
-//       <p>Number of exercises {props.exercises.reduce((sum,item)=> sum + item)}</p>
-//     </div>
-//   );
-// }
+const Total = (props)=>{
+  return(
+    <div>
+      <p>Number of exercises {props.exercises.reduce((sum,item)=> sum + item)}</p>
+    </div>
+  );
+}
 
 function App() {
   const course = {
