@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
+import Person from './Person'
+import Filter from './Filter';
+import PersonForm from './PersonForm';
 
-const App = () =>{
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ])
+const App = (props) =>{
+  const [persons, setPersons] = useState(props.persons)
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone]= useState('')
   const [search, setSearch] = useState('')
@@ -20,11 +18,22 @@ const App = () =>{
   const addNewInfo = (event)=>{
     event.preventDefault()
     if(persons.find(person => person.name === newName)){
-      console.log(persons.indexOf(newName))
       return alert(`${newName} is already added to phonebook`)
     } 
+    // finding max id
+    let max = 0
+    const findMax = () =>{
+      for(let i=0; i< persons.length; i++){
+        if(persons[i].id > max){
+          console.log("id", persons[i].id)
+          max = persons[i].id
+        } 
+      }
+      return max
+    }
     const newObj = {
-      // create new id??
+      // plus 1 for new info
+        id: findMax() + 1,
         name: newName,
         number: newPhone
     }
@@ -38,38 +47,22 @@ const App = () =>{
   return(
     <div>
       <h2>Phonebook</h2>
-      <div>
-        <form>
-          <div>
-            filter shown with <input value = {search} onChange={handleChangeSearch}/>
-            {persons
-              .filter(person => {
-                if(search === ""){
-                  return ""
-                } else if(person.name.toLowerCase().includes(search.toLowerCase())){
-                  return persons
-                }
-                return false
-              })
-              .map(person => <p key={person.id}>{person.name}</p>)
-            }
-          </div>
-        </form>
-      </div>
-      <h2>add a new</h2>
-      <form onSubmit={addNewInfo}>
-        <div>
-          name: <input value={newName} onChange={handleChangeName}/>
-        </div>
-        <div>
-          number: <input value={newPhone} onChange={handleChangePhone}/>
-        </div>
-        <div>
-          <button type='submit'>add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      {persons.map(person => <p key = {person.id} >{person.name} {person.number}</p>)}
+      <Filter value={search} onChange={handleChangeSearch} />
+      {persons
+         .filter(person => {
+            if(search === ""){
+              return ""
+              } else if(person.name.toLowerCase().includes(search.toLowerCase())){
+              return persons
+              }
+              return false
+            })
+         .map(person => <p key={person.id}>{person.name}</p>)
+      }
+      <h3>add a new</h3>
+      <PersonForm onSubmit={addNewInfo} valueName={newName} onChangeName={handleChangeName} valuePhone={newPhone} onChangePhone={handleChangePhone} />
+      <h3>Numbers</h3>
+      {persons.map(person => <Person key={person.id} name={person.name} number={person.number} />)}
     </div>
   )
 }
