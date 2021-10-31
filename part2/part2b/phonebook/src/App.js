@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Person from './Person'
 import Filter from './Filter';
 import PersonForm from './PersonForm';
+import axios from 'axios';
 
-const App = (props) =>{
-  const [persons, setPersons] = useState(props.persons)
+const App = () =>{
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone]= useState('')
   const [search, setSearch] = useState('')
+
+  useEffect(() => {
+    axios
+    .get("http://localhost:3001/persons")
+    .then(response => {
+      setPersons(response.data)
+    })
+  },[])
 
   const handleChangeName = (event)=>{
     setNewName(event.target.value)
@@ -66,7 +75,5 @@ const App = (props) =>{
     </div>
   )
 }
-
-
 
 export default App;
